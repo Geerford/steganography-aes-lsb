@@ -8,14 +8,16 @@ namespace Steganography.AES
 {
     public class Rijndael
     {
-        private static readonly byte[] SALT = new byte[] { 0x26, 0xdc, 0xff, 0x00, 0xad, 0xed, 0x7a, 0xee, 0xc5, 0xfe, 0x07, 0xaf, 0x4d, 0x08, 0x22, 0x3c };
         private readonly int blockLength = 16;
+        private readonly byte[] SALT = new byte[16];
         private MemoryStream ms;
         private CryptoStream cs;
         private SymmetricAlgorithm algorithm;
 
         public SymmetricAlgorithm AlgorithmInit()
         {
+            Random random = new Random();
+            random.NextBytes(SALT);
             SymmetricAlgorithm algorithm = System.Security.Cryptography.Rijndael.Create();
             algorithm.Mode = CipherMode.CFB;
             algorithm.KeySize = 256;
